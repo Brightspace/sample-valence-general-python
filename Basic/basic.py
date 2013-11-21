@@ -42,8 +42,8 @@ import d2lvalence_util.service as d2lservice
 # placed under stricter control than this web-app code. app_config is a
 # dictionary of name-value pairs:
 #
-#   app_id --  App ID as provided by D2L
-#   app_key -- App Key as provided by D2L
+#   app_id --  App ID as provided by D2L -- DON'T HARDCODE INTO YOUR APP
+#   app_key -- App Key as provided by D2L -- DON'T HARDCODE INTO YOUR APP
 #   host   --  host for the web-app
 #   port   --  port number for the web-app
 #   scheme --  protocol to use for user <--> web-app interaction
