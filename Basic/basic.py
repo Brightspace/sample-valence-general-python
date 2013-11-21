@@ -56,7 +56,7 @@ import d2lvalence_util.service as d2lservice
 
 from conf_basic import app_config as _CFG
 
-# callback URL for receiving user auth tokens for Valence LF API calls
+# Callback URL for receiving user auth tokens for Valence LF API calls
 _AUTH_ROUTE = '/token'
 _AUTH_CB = '{0}://{1}:{2}{3}'.format(_CFG['scheme'],
                                      _CFG['host'],
@@ -90,7 +90,7 @@ def _setup_request():
 ## ----------------------------------------------------------------------------
 
 ## Route handlers
-# ping handler for really simple web-server testing: does it ping back?
+# Ping handler for really simple web-server testing: does it ping back?
 @route('/ping')
 @route('/ping/')
 @route('/ping/<name:re:[a-zA-Z0-9]+>')
@@ -99,11 +99,11 @@ def ping(name='World'):
     return template('<b>Ping! Hello {{name}}!</b>', name=name)
 
 
-# standard entry point
+# Default endpoint to start from
 @route('/')
 def start():
 
-    if 'valence_user_context' not in request.session:
+    if 'user_context' not in request.session:
         # valence user not yet auth'd -- start the process from scratch
         aurl = _ac.create_url_for_authentication(
             host=_CFG['lms_host'],
@@ -118,6 +118,10 @@ def start():
         redirect('/whoami', 302)
 
 
+# Endpoint for authentication callback: the LMS will send user tokens back
+# to this route once they're generated; note that this route does not display
+# anything itself -- it caches the user context properties in the session and
+# then redirects to the "whoami" page.
 @route(_AUTH_ROUTE, method='GET')
 def auth_token_handler():
     # we've got back a set of user tokens from the LMS, so use them to build a
@@ -128,16 +132,18 @@ def auth_token_handler():
         encrypt_requests=_CFG['encrypt_requests'])
 
     # store the context's props, so we can rebuild it from these props later
-    request.session['valence_user_context'] = uc.get_context_properties()
+    request.session['user_context'] = uc.get_context_properties()
 
     # redirect to the whoami handler
     redirect('/whoami', 302)
 
 
+# Endpoint for showing the whoami information retrieved by using the cached
+# user context.
 @route('/whoami', method='GET')
 def whoami_handler():
 
-    if 'valence_user_context' not in request.session:
+    if 'user_context' not in request.session:
         # valence user not yet auth'd -- start the process from scratch
         aurl = _ac.create_url_for_authentication(
             host=_CFG['lms_host'],
@@ -148,15 +154,16 @@ def whoami_handler():
         redirect(aurl, 302)
 
     else:
+        # we have a user context, so let's revive it
         uc = _ac.create_user_context(
-            d2l_user_context_props_dict=request.session['valence_user_context'])
+            d2l_user_context_props_dict=request.session['user_context'])
 
-        # Retrieve the User.WhoAmI structure for the user context
+        # retrieve the User.WhoAmI structure for the user context
         user = d2lservice.get_whoami(uc,
                                      ver=_CFG['lms_ver']['lp'],
                                      verify=_CFG['verify'])
 
-    # Return the template for the 'whoami' page, providing first-name and
+    # return the template for the 'whoami' page, providing first-name and
     # last-name values from the retrieved User.WhoAmI record.
     return template('whoami',
                     first_name=user.FirstName,
