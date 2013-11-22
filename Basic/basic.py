@@ -101,6 +101,7 @@ def ping(name='World'):
 
 # Default endpoint to start from
 @route('/')
+@route('/start')
 def start():
 
     if 'user_context' not in request.session:
