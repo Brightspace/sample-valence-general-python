@@ -25,8 +25,7 @@ import urllib.parse
 # Python third-party (non-D2L) lib imports
 import beaker.middleware
 import bottle
-from bottle import request, route, hook, template, redirect, abort, static_file
-import requests
+from bottle import request, route, hook, template, redirect, abort
 
 # D2L SDK library imports
 # - the SDK also depends on the 'requests' third-party lib
