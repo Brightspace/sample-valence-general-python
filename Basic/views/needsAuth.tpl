@@ -7,7 +7,7 @@
         <p>You must first log into your LMS.</p>
 
         <p>By default this sample points to an LMS hosted at
-        valence.desire2learn.com. You can use the user "sampleapiuser" with the
+        <i>lms.valence.desire2learn.com</i>. You can use the user "sampleapiuser" with the
         password "Tisabiiif" to log in.</p>
 
         <p>If you have already authenticated with the LMS you will not need to
