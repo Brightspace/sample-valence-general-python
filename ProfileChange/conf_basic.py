@@ -30,6 +30,6 @@ app_config = { 'app_id': 'G9nUpvbZQyiPrk3um2YAkQ',
                'lms_port': '443',
                'encrypt_requests': True,
                'verify' : False,
-               'lms_ver': {'lp':'1.0','le':'1.0','ep':'2.0'},
+               'lms_ver': {'lp':'1.1','le':'1.1','ep':'2.1'},
                'debug': True
                }

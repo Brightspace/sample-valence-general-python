@@ -30,7 +30,7 @@ app_config = { 'app_id': 'G9nUpvbZQyiPrk3um2YAkQ',
                'lms_port': '443',
                'encrypt_requests': True,
                'verify' : False,
-               'lms_ver': {'lp':'1.2','le':'1.2','ep':'2.2'},
+               'lms_ver': {'lp':'1.1','le':'1.1','ep':'2.1'},
                'lms_student_role_id': 78,
                'lms_course_offering_type_id': 3,
                'debug': True
